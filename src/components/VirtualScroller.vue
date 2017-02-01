@@ -174,12 +174,21 @@ export default {
       }
     },
 
+    debounce (method) {
+      return () => {
+        this._tId && clearTimeout(this._tId)
+        this._tId = setTimeout(() => {
+          method()
+        }, 0)
+      }
+    },
+
     addWindowScroll () {
-      window.addEventListener('scroll', this.updateVisibleItems, true)
+      window.addEventListener('scroll', this.debounce(this.updateVisibleItems), true)
     },
 
     removeWindowScroll () {
-      window.removeEventListener('scroll', this.updateVisibleItems, true)
+      window.removeEventListener('scroll', this.debounce(this.updateVisibleItems), true)
     },
   },
 
